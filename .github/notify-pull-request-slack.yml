@@ -1,0 +1,22 @@
+name: Notify Pull Request Slack
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - closed
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: daint2git/pull-request-slack-notifier@v1
+        with:
+          slack-bot-token: 
+          slack-channel-id: 
+          user-mapping: |
+            {
+              "GitHub username 1": "Slack member ID 1",
+              "GitHub username 2": "Slack member ID 2"
+            }

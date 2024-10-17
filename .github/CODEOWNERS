@@ -1,0 +1,8 @@
+.github/* @caju-beneficios/devops
+iac/* @caju-beneficios/devops
+cicd/* @caju-beneficios/devops
+atlantis.yaml @caju-beneficios/devops
+iac/environments/staging/policies/*.json @caju-beneficios/security
+iac/environments/production/policies/*.json @caju-beneficios/security
+cicd/manifests/overlays/**/network-policy.yaml @caju-beneficios/security
+cicd/manifests/overlays/**/dev-role.yaml @caju-beneficios/security

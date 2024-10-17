@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: VAR_SERVICE_NAME
+  labels:
+    tags.datadoghq.com/service: "VAR_SERVICE_NAME"
+    tags.datadoghq.com/version: "VAR_CONTAINER_TAG"
+spec:
+  template:
+    metadata:
+      labels:
+        tags.datadoghq.com/service: "VAR_SERVICE_NAME"
+        tags.datadoghq.com/version: "VAR_CONTAINER_TAG"
+        admission.datadoghq.com/enabled: "true"
+      annotations:
+        admission.datadoghq.com/java-lib.version: latest
+    spec:
+      containers:
+        - name: VAR_SERVICE_NAME
+          env:
+            - name: DD_PROFILING_ENABLED
+              value: "false"
+            - name: DD_LOGS_INJECTION
+              value: "true"
+            - name: DD_APPSEC_ENABLED
+              value: "false"

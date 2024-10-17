@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: VAR_SERVICE_NAME
+  namespace: VAR_NAMESPACE_KUBERNETES
+spec:
+  template:
+    spec:
+      containers:
+        - name: VAR_SERVICE_NAME
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"

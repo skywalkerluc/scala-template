@@ -1,0 +1,28 @@
+name: Publish TechDocs
+
+on:
+  pull_request:
+    types: [closed]
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - ".github/workflows/publish_techdocs.yaml"
+  workflow_dispatch:
+
+jobs:
+  publish-techdocs:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged && github.event.pull_request.base.ref == 'main'
+    name: Publish Techdocs to S3
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ezcater/techdocs-actions/setup@main
+      - uses: ezcater/techdocs-actions/generate@main
+      - uses: ezcater/techdocs-actions/publish@main
+        with:
+          aws-bucket-name: "caju-backstage"
+          aws-region: "sa-east-1"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          entity-kind: "component"
+          entity-name: "${{ vars.APP_NAME }}"

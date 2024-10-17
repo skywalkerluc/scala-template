@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: VAR_SERVICE_NAME
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: VAR_SERVICE_NAME
+          image: 175174716971.dkr.ecr.sa-east-1.amazonaws.com/VAR_SERVICE_NAME:VAR_CONTAINER_TAG
+          imagePullPolicy: Always
+          ports:
+            - name: http-server
+              containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: configmap-VAR_SERVICE_NAME
+            - secretRef:
+                name: secrets-VAR_SERVICE_NAME
+          livenessProbe:
+            httpGet:
+              port: http-server
+              path: "/VAR_SERVICE_NAME/health"
+            initialDelaySeconds: 120
+            timeoutSeconds: 10
+            periodSeconds: 15
+            successThreshold: 1
+            failureThreshold: 2
+          readinessProbe:
+            httpGet:
+              port: http-server
+              path: "/VAR_SERVICE_NAME/health"
+            initialDelaySeconds: 120
+            timeoutSeconds: 10
+            periodSeconds: 15
+            successThreshold: 1
+            failureThreshold: 2
+          startupProbe:
+            httpGet:
+              port: http-server
+              path: "/VAR_SERVICE_NAME/health"
+            initialDelaySeconds: 120
+            timeoutSeconds: 10
+            periodSeconds: 15
+            successThreshold: 1
+            failureThreshold: 2

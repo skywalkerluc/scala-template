@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-VAR_SERVICE_NAME
+data:
+  LOG_FORMAT: "JSON"
+  LOG_LEVEL: "INFO"
+  DD_LOG_FORMAT_JSON: "true"
+  POOL_SIZE: "5"
+  HTTP_PORT: "8080"

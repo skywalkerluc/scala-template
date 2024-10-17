@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-VAR_SERVICE_NAME
+  namespace: VAR_NAMESPACE_KUBERNETES
+  annotations:
+    alb.ingress.kubernetes.io/group.name: apps.staging-caju-app
+    alb.ingress.kubernetes.io/healthcheck-path: /VAR_SERVICE_NAME/health
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/load-balancer-name: caju-app-alb-int-staging
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/subnets: subnet-02c0d42d50be19b3c, subnet-07b8d35734c48836f, subnet-01a3cdcad931cb872
+    alb.ingress.kubernetes.io/success-codes: "200"
+    alb.ingress.kubernetes.io/tags: Environment=staging
+    alb.ingress.kubernetes.io/target-type: instance
+spec:
+  ingressClassName: alb
+  rules:
+    - host: "VAR_SERVICE_NAME-staging.caju.app"
+      http:
+        paths:
+          - path: /VAR_SERVICE_NAME
+            pathType: Prefix
+            backend:
+              service:
+                name: "svc-VAR_SERVICE_NAME-primary"
+                port:
+                  name: http

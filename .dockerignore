@@ -1,0 +1,9 @@
+.github
+*.md
+cicd/manifests
+docs/
+iac/
+.gitignore
+atlantis.yaml
+catalog-info.yaml
+mkdocs.yml

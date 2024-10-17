@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: VAR_NAMESPACE_KUBERNETES
+
+resources:
+  - app-configmap.yaml
+  - app-pdb.yaml
+  - deployment.yaml
+  - service-primary.yaml
+
+patchesStrategicMerge:
+  - app-affinity.yaml
+  - app-datadog-env.yaml
+  - app-sa.yaml
+  - app-sec.yaml
+  - app-secrets.yaml
+
+commonLabels:
+  app: VAR_SERVICE_NAME

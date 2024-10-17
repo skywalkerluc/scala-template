@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: VAR_SERVICE_NAME
+  namespace: VAR_NAMESPACE_KUBERNETES
+  labels:
+    tags.datadoghq.com/env: staging
+spec:
+  template:
+    metadata:
+      labels:
+        tags.datadoghq.com/env: staging
+      annotations:
+        ad.datadoghq.com/VAR_SERVICE_NAME.logs: '[{"source": "VAR_SERVICE_NAME", "service": "VAR_SERVICE_NAME"}]'

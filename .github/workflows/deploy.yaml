@@ -1,0 +1,19 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_environment:
+        description: 'Deploy environment'
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+  deploy:
+    uses: caju-beneficios/workflow/.github/workflows/scala-service-deploy.yaml@main
+    secrets: inherit
+    with:
+      deploy_environment: ${{ inputs.deploy_environment }}

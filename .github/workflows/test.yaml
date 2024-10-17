@@ -1,0 +1,15 @@
+name: Test
+
+on:
+  pull_request:
+    branches: [ '**' ]
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+
+jobs:
+  check:
+    uses: caju-beneficios/workflow/.github/workflows/scala-tests.yaml@main
+    secrets: inherit

@@ -1,0 +1,68 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: VAR_NAMESPACE_KUBERNETES
+
+resources:
+  - ../../base
+  - app-secrets.yaml
+  - service-account.yaml
+  - ingress.yaml
+
+patches:
+  - path: app-configmap.yaml
+  - path: app-datadog-env.yaml
+  - path: app-resources.yaml
+  - path: rollout-strategy.yaml
+  - path: service-account.yaml
+
+  - target:
+      kind: Deployment
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: VAR_SERVICE_NAME
+      spec:
+        template:
+          spec:
+            containers:
+              - name: VAR_SERVICE_NAME
+                volumeMounts:
+                  - name: secrets-store-inline
+                    mountPath: "/mnt/secrets"
+                    readOnly: true
+            volumes:
+              - name: secrets-store-inline
+                csi:
+                  driver: secrets-store.csi.k8s.io
+                  readOnly: true
+                  volumeAttributes:
+                    secretProviderClass: "secrets-VAR_SERVICE_NAME"
+
+  # Set Datadog service env
+  - patch: |-
+      - op: replace
+        path: /metadata/labels/tags.datadoghq.com~1env
+        value: staging
+      - op: replace
+        path: /spec/template/metadata/labels/tags.datadoghq.com~1env
+        value: staging
+    target:
+      kind: Deployment
+
+# Set Datadog service image tag/version
+replacements:
+  - source:
+      fieldPath: spec.template.spec.containers.0.image
+      kind: Deployment
+      options:
+        delimiter: ':'
+        index: 1
+    targets:
+      - fieldPaths:
+          - metadata.labels.[tags.datadoghq.com/version]
+          - spec.template.metadata.labels.[tags.datadoghq.com/version]
+        options:
+          create: true
+        select:
+          kind: Deployment

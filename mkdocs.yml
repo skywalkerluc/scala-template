@@ -1,0 +1,7 @@
+site_name: 'project-name-default'
+
+nav:
+  - Home: index.md
+
+plugins:
+  - techdocs-core

@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: VAR_SERVICE_NAME
+  namespace: VAR_NAMESPACE_KUBERNETES
+  labels:
+    tags.datadoghq.com/env: production
+spec:
+  template:
+    metadata:
+      labels:
+        tags.datadoghq.com/env: production
+      annotations:
+        ad.datadoghq.com/VAR_SERVICE_NAME-green.logs: '[{"source": "VAR_SERVICE_NAME", "service": "VAR_SERVICE_NAME"}]'
+        ad.datadoghq.com/VAR_SERVICE_NAME-blue.logs: '[{"source": "VAR_SERVICE_NAME", "service": "VAR_SERVICE_NAME"}]'

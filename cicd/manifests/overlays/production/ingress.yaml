@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-VAR_SERVICE_NAME
+  namespace: VAR_NAMESPACE_KUBERNETES
+  annotations:
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/success-codes: "200"
+    alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/healthcheck-path: /VAR_SERVICE_NAME/health
+    alb.ingress.kubernetes.io/group.name: apps.production-caju-app
+    alb.ingress.kubernetes.io/load-balancer-name: caju-app-alb-int-production
+    alb.ingress.kubernetes.io/subnets: subnet-081ab0447dc332155, subnet-0b6db7156983f42b6, subnet-0d1e3ff05fdb6a989
+    alb.ingress.kubernetes.io/tags: Environment=production
+spec:
+  ingressClassName: alb
+  rules:
+    - host: "VAR_SERVICE_NAME.caju.app"
+      http:
+        paths:
+          - path: /VAR_SERVICE_NAME
+            pathType: Prefix
+            backend:
+              service:
+                name: "svc-VAR_SERVICE_NAME-primary"
+                port:
+                  name: http
